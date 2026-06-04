@@ -126,14 +126,6 @@ export function TmhAnalyzer() {
               accept="image/*"
               onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
             />
-            <input
-              ref={cameraRef}
-              type="file"
-              className="hidden"
-              accept="image/*"
-              capture="environment"
-              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
-            />
           </div>
 
           <label className="w-full inline-flex items-center justify-center h-10 px-4 py-2 rounded-md border border-input bg-background text-sm font-medium cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors">
