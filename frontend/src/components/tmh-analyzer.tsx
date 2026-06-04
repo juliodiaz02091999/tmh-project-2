@@ -125,6 +125,7 @@ export function TmhAnalyzer() {
   }
 
   return (
+    <>
     <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-5">
       {/* Header */}
       <div>
@@ -319,5 +320,6 @@ export function TmhAnalyzer() {
         </div>
       </div>
     )}
+    </>
   )
 }
