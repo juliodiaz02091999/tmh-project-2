@@ -83,34 +83,38 @@ export function TmhAnalyzer() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 space-y-6">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-5">
+      {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">TMH Analyzer</h1>
-        <p className="text-muted-foreground mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">TMH Analyzer</h1>
+        <p className="text-sm text-muted-foreground mt-1">
           Medición automatizada de la altura del menisco lagrimal
         </p>
       </div>
 
+      {/* Upload */}
       <Card>
-        <CardContent className="pt-6 space-y-4">
+        <CardContent className="pt-5 space-y-3">
           <div
             onDrop={handleDrop}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
             onDragLeave={() => setDragOver(false)}
             onClick={() => inputRef.current?.click()}
-            className={`border-2 border-dashed rounded-lg p-10 text-center cursor-pointer transition-colors ${
+            className={`border-2 border-dashed rounded-lg p-6 sm:p-10 text-center cursor-pointer transition-colors ${
               dragOver
                 ? "border-primary bg-muted/40"
                 : "hover:border-primary/50 hover:bg-muted/20"
             }`}
           >
             {preview ? (
-              <img src={preview} alt="Preview" className="max-h-52 mx-auto rounded" />
+              <img src={preview} alt="Preview" className="max-h-48 mx-auto rounded" />
             ) : (
               <div className="space-y-2 text-muted-foreground">
-                <Upload className="mx-auto h-10 w-10 opacity-40" />
-                <p className="text-base">Arrastra tu imagen aquí</p>
-                <p className="text-sm">o haz clic para seleccionar</p>
+                <Upload className="mx-auto h-8 w-8 sm:h-10 sm:w-10 opacity-40" />
+                <p className="text-sm sm:text-base">
+                  <span className="hidden sm:inline">Arrastra tu imagen aquí o </span>
+                  Toca para seleccionar
+                </p>
                 <p className="text-xs opacity-60">PNG · JPG · BMP · TIFF</p>
               </div>
             )}
@@ -124,11 +128,11 @@ export function TmhAnalyzer() {
           </div>
 
           {file && (
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground truncate max-w-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
+              <span className="text-sm text-muted-foreground truncate min-w-0">
                 {file.name}
               </span>
-              <Button onClick={handleAnalyze} disabled={loading}>
+              <Button onClick={handleAnalyze} disabled={loading} className="w-full sm:w-auto">
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {loading ? "Procesando..." : "Analizar imagen"}
               </Button>
@@ -139,40 +143,42 @@ export function TmhAnalyzer() {
         </CardContent>
       </Card>
 
+      {/* Results */}
       {result && (
         <div className="space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {/* Metrics grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Card>
-              <CardHeader className="pb-1 pt-4 px-4">
+              <CardHeader className="pb-1 pt-3 px-3 sm:px-4">
                 <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   TMH
                 </CardTitle>
               </CardHeader>
-              <CardContent className="px-4 pb-4">
-                <p className="text-3xl font-bold">{result.tmh_mm.toFixed(3)}</p>
+              <CardContent className="px-3 sm:px-4 pb-3">
+                <p className="text-2xl sm:text-3xl font-bold">{result.tmh_mm.toFixed(3)}</p>
                 <p className="text-xs text-muted-foreground">mm</p>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className="pb-1 pt-4 px-4">
+              <CardHeader className="pb-1 pt-3 px-3 sm:px-4">
                 <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   TMH (px)
                 </CardTitle>
               </CardHeader>
-              <CardContent className="px-4 pb-4">
-                <p className="text-3xl font-bold">{result.tmh_px.toFixed(1)}</p>
+              <CardContent className="px-3 sm:px-4 pb-3">
+                <p className="text-2xl sm:text-3xl font-bold">{result.tmh_px.toFixed(1)}</p>
                 <p className="text-xs text-muted-foreground">píxeles</p>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className="pb-1 pt-4 px-4">
+              <CardHeader className="pb-1 pt-3 px-3 sm:px-4">
                 <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   Calidad
                 </CardTitle>
               </CardHeader>
-              <CardContent className="px-4 pb-4 flex items-center">
+              <CardContent className="px-3 sm:px-4 pb-3 flex items-center">
                 <Badge variant={QUALITY_VARIANT[result.quality] ?? "outline"}>
                   {result.quality}
                 </Badge>
@@ -180,13 +186,13 @@ export function TmhAnalyzer() {
             </Card>
 
             <Card>
-              <CardHeader className="pb-1 pt-4 px-4">
+              <CardHeader className="pb-1 pt-3 px-3 sm:px-4">
                 <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                   Iris Ø
                 </CardTitle>
               </CardHeader>
-              <CardContent className="px-4 pb-4">
-                <p className="text-3xl font-bold">
+              <CardContent className="px-3 sm:px-4 pb-3">
+                <p className="text-2xl sm:text-3xl font-bold">
                   {result.iris_diameter_px.toFixed(0)}
                 </p>
                 <p className="text-xs text-muted-foreground">px</p>
@@ -194,6 +200,7 @@ export function TmhAnalyzer() {
             </Card>
           </div>
 
+          {/* Detection badges */}
           <div className="flex gap-2 flex-wrap">
             <Badge variant={result.pupil_reflection_found ? "default" : "secondary"}>
               Reflejo pupilar {result.pupil_reflection_found ? "✓" : "✗"}
@@ -203,22 +210,25 @@ export function TmhAnalyzer() {
             </Badge>
           </div>
 
+          {/* Images tabs — scrollable on mobile */}
           <Tabs defaultValue="result">
-            <TabsList>
-              {Object.keys(result.images).map((key) => (
-                <TabsTrigger key={key} value={key}>
-                  {IMAGE_LABELS[key] ?? key}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="overflow-x-auto pb-1">
+              <TabsList className="w-max min-w-full">
+                {Object.keys(result.images).map((key) => (
+                  <TabsTrigger key={key} value={key} className="text-xs sm:text-sm">
+                    {IMAGE_LABELS[key] ?? key}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
             {Object.entries(result.images).map(([key, src]) => (
               <TabsContent key={key} value={key}>
                 <Card>
-                  <CardContent className="pt-4">
+                  <CardContent className="pt-3 px-3 sm:px-6">
                     <img
                       src={src}
                       alt={IMAGE_LABELS[key] ?? key}
-                      className="w-full rounded object-contain max-h-[600px]"
+                      className="w-full rounded object-contain max-h-[70vh]"
                     />
                   </CardContent>
                 </Card>
