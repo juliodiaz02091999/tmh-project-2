@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Modelos y caché de HuggingFace
+*.onnx
+.cache/
+~/.cache/
+
+# Salidas del pipeline
+/output/
+*_output/
+*.csv
+*.json
+!package.json
+!tsconfig.json
+!components.json
+
+# Node / Next.js
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+out/
+.env*.local
+
+# Imágenes de prueba / datos
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tif
+*.tiff
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs.txt
