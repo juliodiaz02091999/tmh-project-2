@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useRef } from "react"
-import { Loader2, Upload } from "lucide-react"
+import { Loader2, Upload, Camera } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -40,6 +40,7 @@ export function TmhAnalyzer() {
   const [error, setError] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
 
   const handleFile = useCallback((f: File) => {
     setFile(f)
@@ -125,7 +126,24 @@ export function TmhAnalyzer() {
               accept="image/*"
               onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
             />
+            <input
+              ref={cameraRef}
+              type="file"
+              className="hidden"
+              accept="image/*"
+              capture="environment"
+              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+            />
           </div>
+
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => cameraRef.current?.click()}
+          >
+            <Camera className="mr-2 h-4 w-4" />
+            Tomar foto
+          </Button>
 
           {file && (
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
