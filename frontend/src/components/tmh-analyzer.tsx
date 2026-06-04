@@ -40,7 +40,6 @@ export function TmhAnalyzer() {
   const [error, setError] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const cameraRef = useRef<HTMLInputElement>(null)
 
   const handleFile = useCallback((f: File) => {
     setFile(f)
@@ -137,14 +136,17 @@ export function TmhAnalyzer() {
             />
           </div>
 
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => cameraRef.current?.click()}
-          >
+          <label className="w-full inline-flex items-center justify-center h-10 px-4 py-2 rounded-md border border-input bg-background text-sm font-medium cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors">
             <Camera className="mr-2 h-4 w-4" />
             Tomar foto
-          </Button>
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="sr-only"
+              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+            />
+          </label>
 
           {file && (
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
