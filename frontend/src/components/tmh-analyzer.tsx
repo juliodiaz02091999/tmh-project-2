@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useRef, useEffect } from "react"
+import { useState, useCallback, useRef } from "react"
 import { Loader2, Upload, Camera } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -41,47 +41,6 @@ export function TmhAnalyzer() {
   const [dragOver, setDragOver] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const cameraRef = useRef<HTMLInputElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const streamRef = useRef<MediaStream | null>(null)
-  const [showCamera, setShowCamera] = useState(false)
-
-  useEffect(() => {
-    if (showCamera && videoRef.current && streamRef.current) {
-      videoRef.current.srcObject = streamRef.current
-    }
-  }, [showCamera])
-
-  const openCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
-      })
-      streamRef.current = stream
-      setShowCamera(true)
-    } catch {
-      cameraRef.current?.click()
-    }
-  }
-
-  const capturePhoto = () => {
-    if (!videoRef.current) return
-    const canvas = document.createElement("canvas")
-    canvas.width = videoRef.current.videoWidth
-    canvas.height = videoRef.current.videoHeight
-    canvas.getContext("2d")?.drawImage(videoRef.current, 0, 0)
-    canvas.toBlob((blob) => {
-      if (blob) {
-        handleFile(new File([blob], "foto.jpg", { type: "image/jpeg" }))
-        closeCamera()
-      }
-    }, "image/jpeg", 0.9)
-  }
-
-  const closeCamera = () => {
-    streamRef.current?.getTracks().forEach((t) => t.stop())
-    streamRef.current = null
-    setShowCamera(false)
-  }
 
   const handleFile = useCallback((f: File) => {
     setFile(f)
@@ -181,7 +140,7 @@ export function TmhAnalyzer() {
           <Button
             variant="outline"
             className="w-full"
-            onClick={openCamera}
+            onClick={() => cameraRef.current?.click()}
           >
             <Camera className="mr-2 h-4 w-4" />
             Tomar foto
@@ -298,28 +257,6 @@ export function TmhAnalyzer() {
         </div>
       )}
     </div>
-
-    {/* Camera modal */}
-    {showCamera && (
-      <div className="fixed inset-0 z-50 bg-black flex flex-col">
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="flex-1 w-full object-cover"
-        />
-        <div className="p-6 flex gap-4 justify-center bg-black">
-          <Button variant="outline" onClick={closeCamera} className="flex-1 max-w-xs">
-            Cancelar
-          </Button>
-          <Button onClick={capturePhoto} className="flex-1 max-w-xs">
-            <Camera className="mr-2 h-4 w-4" />
-            Capturar
-          </Button>
-        </div>
-      </div>
-    )}
     </>
   )
 }
